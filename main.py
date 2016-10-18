@@ -27,14 +27,18 @@ class ChadFact(Resource):
 		return formatted_fact
 
 	def get(self):
-		facts = open('chadfacts.json')
+		json_location = 'chadfacts.json'
+		if __name__ != '__main__':
+			json_location = '/home/carvey/mysite/chadfacts.json'
+			
+		facts = open(json_location)
 		data = json.load(facts)
 
 		text = self.select_fact(data)
 
 		facts.close()
 
-		return {"text": text}
+		return {"text": text, "response_type": "in_channel"}
 
 api.add_resource(ChadFact, '/')
 
